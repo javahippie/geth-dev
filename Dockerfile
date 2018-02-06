@@ -12,8 +12,6 @@ RUN wget https://gethstore.blob.core.windows.net/builds/geth-linux-amd64-1.7.3-4
 
 ADD ./genesis.json ./genesis.json
 
-RUN echo "password" >> password
-
 RUN ./geth-linux-amd64-1.7.3-4bb3c89d/geth --datadir="ethdata" init genesis.json
 RUN echo `date +%s | sha256sum | base64 | head -c 32` > ~/.accountpassword
 RUN ./geth-linux-amd64-1.7.3-4bb3c89d/geth --dev --password ~/.accountpassword account new > ~/.primaryaccount
