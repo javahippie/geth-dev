@@ -1,4 +1,5 @@
-geth-dev-miner:
+geth-dev-miner-1:
   image: geth-dev
   ports:
     - "8545:8545"
+    - "30303:30303"
