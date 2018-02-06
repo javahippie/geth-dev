@@ -19,6 +19,6 @@ RUN echo `date +%s | sha256sum | base64 | head -c 32` > ~/.accountpassword
 RUN ./geth-linux-amd64-1.7.3-4bb3c89d/geth --dev --password ~/.accountpassword account new > ~/.primaryaccount
 
 
-CMD ./geth-linux-amd64-1.7.3-4bb3c89d/geth --dev --rpc --rpcaddr "0.0.0.0" --rpccorsdomain "*" -- rcpapi "db,eth,net,web3,personal"  --etherbase=0x0000000000000000000000000000000000000000 --datadir ethdata --networkid 15 --mine --minerthreads=1 --extradata "javahippie"
+CMD exec ./geth-linux-amd64-1.7.3-4bb3c89d/geth --dev --rpc --rpcaddr "0.0.0.0" --rpccorsdomain "*" -- rcpapi "db,eth,net,web3,personal"  --etherbase=0x0000000000000000000000000000000000000000 --datadir ethdata --networkid 15 --mine --minerthreads=1 --extradata "javahippie"
 
 EXPOSE 8545
