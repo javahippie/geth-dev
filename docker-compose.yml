@@ -1,5 +1,20 @@
+geth-bootnode:
+  hostname: geth-bootnode
+  image: geth-boot
+
 geth-dev-miner-1:
+  hostname: geth-dev-miner-1
   image: geth-dev
   ports:
-    - "8545:8545"
-    - "30303:30303"
+    - 8545:8545
+  links:
+    - geth-bootnode:boot
+
+geth-dev-miner-2:
+  hostname: geth-dev-miner-2
+  image: geth-dev
+  ports:
+    - 8546:8545
+  links:
+    - geth-dev-miner-1:miner-1
+    - geth-bootnode:boot
