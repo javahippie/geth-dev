@@ -1,21 +1,47 @@
 version: "3"
 services:
+  geth-bootnode:
+    hostname: geth-bootnode
+    build:
+      context: ./bootnode
+      args:
+        nodekeyhex: dc90f8f7324f1cc7ba52c4077721c939f98a628ed17e51266d01c9cd0294033a
+    ports: 
+      - 30303:30303/udp
+      - 30301:30301/udp
+    networks:
+      chainnet: 
+        ipv4_address: 172.25.0.101
+
   geth-dev-miner-1:
     hostname: geth-dev-miner-1
     build: 
-      context: .
+      context: ./miner
       args:
-        identity: miner-1
-    container_name: geth-miner-1
+        privatekey: 0298aee9ca054684634a5ec30afbe441d606c1d766319cbdb8a3deb579c8017
+        password: pass
+        container_name: geth-miner-1
     ports:
       - 8545:8545
+    networks:
+      chainnet:
 
   geth-dev-miner-2:
     hostname: geth-dev-miner-2
     build: 
-      context: .
+      context: ./miner
       args:
-        identity: miner-2
-    container_name: geth-miner-2
+        privatekey: bc5b578e0dcb2dbf98dd6e5fe62cb5a28b84a55e15fc112d4ca88e1f62bd7c35
+        password: word
+        container_name: geth-miner-2
     ports:
       - 8546:8545
+    networks:
+      chainnet:
+
+networks:
+  chainnet:
+    driver: bridge
+    ipam:
+      config:
+      - subnet: 172.25.0.0/24
