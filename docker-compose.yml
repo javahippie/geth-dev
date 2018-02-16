@@ -18,9 +18,9 @@ services:
     build: 
       context: ./miner
       args:
-        privatekey: 0298aee9ca054684634a5ec30afbe441d606c1d766319cbdb8a3deb579c8017
+        privatekey: df504d175ae63abf209bad9dda965310d99559620550e74521a6798a41215f46
         password: pass
-        container_name: geth-miner-1
+    container_name: geth-miner-1
     ports:
       - 8545:8545
     networks:
@@ -33,7 +33,7 @@ services:
       args:
         privatekey: bc5b578e0dcb2dbf98dd6e5fe62cb5a28b84a55e15fc112d4ca88e1f62bd7c35
         password: word
-        container_name: geth-miner-2
+    container_name: geth-miner-2
     ports:
       - 8546:8545
     networks:

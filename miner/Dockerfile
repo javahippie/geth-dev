@@ -21,8 +21,7 @@ RUN echo $password > ~/.accountpassword
 RUN echo $privatekey > ~/.privatekey
 RUN ./geth account import --password ~/.accountpassword  ~/.privatekey
 
-
-CMD exec ./geth --bootnodes "enode://76a8171707eca17647a47ca99ffd348927dfa60102792ea349a25d5192e61855be83b786e376276a306afcceea4ffd1c9c77e4370b417efc39f328a0d068004c@172.25.0.101:30301" --networkid="500"  --verbosity=4 --rpc --rpcaddr "0.0.0.0" --rpccorsdomain "*" -- rcpapi "db,eth,net,web3,personal" --mine --minerthreads=1
+CMD exec ./geth --bootnodes "enode://76a8171707eca17647a47ca99ffd348927dfa60102792ea349a25d5192e61855be83b786e376276a306afcceea4ffd1c9c77e4370b417efc39f328a0d068004c@172.25.0.101:30301" --networkid="500" --verbosity=4 --rpc --rpcaddr "0.0.0.0" --rpccorsdomain "*" --mine --minerthreads 1 --unlock "0x8cc5a1a0802db41db826c2fcb72423744338dcb0" --password ~/.accountpassword
 
 EXPOSE 8545
 EXPOSE 30301/udp
