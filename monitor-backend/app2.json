@@ -11,7 +11,7 @@
     "env":
     {
       "NODE_ENV"        : "production",
-      "RPC_HOST"        : "172.25.0.102",
+      "RPC_HOST"        : "172.25.0.104",
       "RPC_PORT"        : "8545",
       "LISTENING_PORT"  : "30303",
       "INSTANCE_NAME"   : "miner-1",

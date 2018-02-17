@@ -10,12 +10,11 @@ RUN ln -s /usr/bin/nodejs /usr/bin/node
 
 WORKDIR "/opt"
 
-RUN git clone https://github.com/cubedro/eth-net-intelligence-api.git
+RUN git clone https://github.com/cubedro/eth-netstats.git
 
-WORKDIR "/opt/eth-net-intelligence-api"
-
-RUN npm install -g pm2
-ADD ./app.json ./app.json
-ADD ./app2.json ./app2.json
+WORKDIR "/opt/eth-netstats"
 RUN npm install
-CMD exec pm2-docker start app.json app2.json
+RUN npm install -g grunt-cli
+RUN grunt
+
+CMD WS_SECRET=test npm start

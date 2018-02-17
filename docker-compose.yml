@@ -50,6 +50,7 @@ services:
      - eth-data-2:/root/.ethash
     networks:
       chainnet:
+        ipv4_address: 172.25.0.104
 
   geth-monitor-backend:
     hostname: geth-monitor-backend
@@ -58,6 +59,17 @@ services:
     container_name: monitor-backend
     networks:
       chainnet:
+
+  geth-monitor-frontend:
+   hostname: geth-monitor-frontend
+   build:
+     context: ./monitor-frontend
+   container_name: monitor-frontend
+   ports:
+    - 3000:3000
+   networks:
+    chainnet:
+      ipv4_address: 172.25.0.103
 
 networks:
   chainnet:

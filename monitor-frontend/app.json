@@ -16,7 +16,7 @@
       "LISTENING_PORT"  : "30303",
       "INSTANCE_NAME"   : "miner-1",
       "CONTACT_DETAILS" : "",
-      "WS_SERVER"       : "http://172.25.0.103:3000",
+      "WS_SERVER"       : "http://localhost:3000",
       "WS_SECRET"       : "test",
       "VERBOSITY"       : 3
     }
