@@ -30,6 +30,7 @@ services:
       - eth-data-1:/root/.ethash
     networks:
       chainnet:
+        ipv4_address: 172.25.0.102 # The monitor needs to know this address
 
   geth-dev-miner-2:
     hostname: geth-dev-miner-2
@@ -47,6 +48,14 @@ services:
       - 8546:8545
     volumes:
      - eth-data-2:/root/.ethash
+    networks:
+      chainnet:
+
+  geth-monitor-backend:
+    hostname: geth-monitor-backend
+    build:
+      context: ./monitor-backend
+    container_name: monitor-backend
     networks:
       chainnet:
 
