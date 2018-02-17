@@ -2,10 +2,10 @@ version: "3"
 services:
   geth-bootnode:
     hostname: geth-bootnode
+    environment: 
+      - nodekeyhex=08f0e1dee5c1b4645f3331a566009e41a4514b6cd28656d63d0449ecf812812b #Needs to be fix, so that the miners know the resulting enode id
     build:
       context: ./bootnode
-      args:
-        nodekeyhex: dc90f8f7324f1cc7ba52c4077721c939f98a628ed17e51266d01c9cd0294033a #Needs to be fix, so that the miners know the resulting enode id
     ports: 
       - 30301:30301/udp
     networks:
@@ -15,7 +15,9 @@ services:
   geth-dev-miner-1:
     hostname: geth-dev-miner-1
     environment:
-      - address=0x8cc5a1a0802db41db826c2fcb72423744338dcb0
+      - address=0x8cc5a1a0802db41db826c2fcb72423744338dcb0 #derived from the private key which is passed in the args
+      - bootnodeId=76a8171707eca17647a47ca99ffd348927dfa60102792ea349a25d5192e61855be83b786e376276a306afcceea4ffd1c9c77e4370b417efc39f328a0d068004c #derived from the nodekeyhex of the bootnode
+      - bootnodeIp=172.25.0.101  
     build: 
       context: ./miner
       args:
@@ -32,7 +34,9 @@ services:
   geth-dev-miner-2:
     hostname: geth-dev-miner-2
     environment:
-      - address=0x3590aca93338b0721966a8d0c96ebf2c4c87c544
+      - address=0x3590aca93338b0721966a8d0c96ebf2c4c87c544 #derived from the private key which is passed in the args
+      - bootnodeId=76a8171707eca17647a47ca99ffd348927dfa60102792ea349a25d5192e61855be83b786e376276a306afcceea4ffd1c9c77e4370b417efc39f328a0d068004c #derived from the nodekeyhex of the bootnode
+      - bootnodeIp=172.25.0.101
     build: 
       context: ./miner
       args:
