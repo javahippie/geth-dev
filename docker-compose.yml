@@ -5,29 +5,34 @@ services:
     build:
       context: ./bootnode
       args:
-        nodekeyhex: dc90f8f7324f1cc7ba52c4077721c939f98a628ed17e51266d01c9cd0294033a
+        nodekeyhex: dc90f8f7324f1cc7ba52c4077721c939f98a628ed17e51266d01c9cd0294033a #Needs to be fix, so that the miners know the resulting enode id
     ports: 
-      - 30303:30303/udp
       - 30301:30301/udp
     networks:
       chainnet: 
-        ipv4_address: 172.25.0.101
+        ipv4_address: 172.25.0.101 # The miners need to know the IP address later on
 
   geth-dev-miner-1:
     hostname: geth-dev-miner-1
+    environment:
+      - address=0x8cc5a1a0802db41db826c2fcb72423744338dcb0
     build: 
       context: ./miner
       args:
-        privatekey: df504d175ae63abf209bad9dda965310d99559620550e74521a6798a41215f46
+        privatekey: df504d175ae63abf209bad9dda965310d99559620550e74521a6798a41215f46 # Please don't do something like this in production, okay?
         password: pass
     container_name: geth-miner-1
     ports:
       - 8545:8545
+    volumes:
+      - eth-data-1:/root/.ethash
     networks:
       chainnet:
 
   geth-dev-miner-2:
     hostname: geth-dev-miner-2
+    environment:
+      - address=0x3590aca93338b0721966a8d0c96ebf2c4c87c544
     build: 
       context: ./miner
       args:
@@ -36,6 +41,8 @@ services:
     container_name: geth-miner-2
     ports:
       - 8546:8545
+    volumes:
+     - eth-data-2:/root/.ethash
     networks:
       chainnet:
 
@@ -45,3 +52,7 @@ networks:
     ipam:
       config:
       - subnet: 172.25.0.0/24
+
+volumes:
+  eth-data-1:
+  eth-data-2:
