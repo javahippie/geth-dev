@@ -14,6 +14,8 @@ services:
 
   geth-dev-miner-1:
     hostname: geth-dev-miner-1
+    depends_on: 
+      - geth-bootnode
     environment:
       - address=0x8cc5a1a0802db41db826c2fcb72423744338dcb0 #derived from the private key which is passed in the args
       - bootnodeId=76a8171707eca17647a47ca99ffd348927dfa60102792ea349a25d5192e61855be83b786e376276a306afcceea4ffd1c9c77e4370b417efc39f328a0d068004c #derived from the nodekeyhex of the bootnode
@@ -34,6 +36,8 @@ services:
 
   geth-dev-miner-2:
     hostname: geth-dev-miner-2
+    depends_on: 
+      - geth-bootnode
     environment:
       - address=0x3590aca93338b0721966a8d0c96ebf2c4c87c544 #derived from the private key which is passed in the args
       - bootnodeId=76a8171707eca17647a47ca99ffd348927dfa60102792ea349a25d5192e61855be83b786e376276a306afcceea4ffd1c9c77e4370b417efc39f328a0d068004c #derived from the nodekeyhex of the bootnode
@@ -54,6 +58,8 @@ services:
 
   geth-dev-miner-3:
      hostname: geth-dev-miner-3
+     depends_on: 
+       - geth-bootnode
      environment:
        - address=0x3590aca93338b0721966a8d0c96ebf2c4c87c544 #derived from the private key which is passed in the args
        - bootnodeId=76a8171707eca17647a47ca99ffd348927dfa60102792ea349a25d5192e61855be83b786e376276a306afcceea4ffd1c9c77e4370b417efc39f328a0d068004c #derived from the nodekeyhex of the bootnode
@@ -74,6 +80,8 @@ services:
 
   geth-monitor-backend:
     hostname: geth-monitor-backend
+    depends_on: 
+      - geth-dev-miner-1
     build:
       context: ./monitor-backend
     container_name: monitor-backend
@@ -82,6 +90,8 @@ services:
 
   geth-monitor-frontend:
    hostname: geth-monitor-frontend
+   depends_on: 
+     - geth-monitor-backend
    build:
      context: ./monitor-frontend
    container_name: monitor-frontend
