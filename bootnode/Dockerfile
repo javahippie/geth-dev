@@ -7,9 +7,10 @@ RUN apt-get update \
      && rm -rf /var/lib/apt/lists/* 
 
 WORKDIR "/opt"
-RUN wget https://gethstore.blob.core.windows.net/builds/geth-alltools-linux-amd64-1.7.3-4bb3c89d.tar.gz 
-RUN tar -xzvf geth-alltools-linux-amd64-1.7.3-4bb3c89d.tar.gz --strip 1
-RUN rm geth-alltools-linux-amd64-1.7.3-4bb3c89d.tar.gz
+ARG BINARY="geth-alltools-linux-amd64-1.8.0-5f540757.tar.gz"
+RUN wget "https://gethstore.blob.core.windows.net/builds/$BINARY"
+RUN tar -xzvf $BINARY --strip 1
+RUN rm $BINARY
 
 ENV nodekeyhex=""
 CMD exec ./bootnode -nodekeyhex $nodekeyhex

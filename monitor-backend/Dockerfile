@@ -16,6 +16,5 @@ WORKDIR "/opt/eth-net-intelligence-api"
 
 RUN npm install -g pm2
 ADD ./app.json ./app.json
-ADD ./app2.json ./app2.json
 RUN npm install
-CMD exec pm2-docker start app.json app2.json
+CMD exec pm2-docker start app.json
