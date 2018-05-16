@@ -7,7 +7,7 @@ RUN apt-get update \
      && rm -rf /var/lib/apt/lists/* 
 
 WORKDIR "/opt"
-ARG BINARY="geth-alltools-linux-amd64-1.8.3-329ac18e.tar.gz"
+ARG BINARY="geth-alltools-linux-amd64-1.8.8-2688dab4.tar.gz"
 RUN wget "https://gethstore.blob.core.windows.net/builds/$BINARY"
 RUN tar -xzvf $BINARY --strip 1
 RUN rm $BINARY
