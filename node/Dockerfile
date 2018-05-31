@@ -7,10 +7,10 @@ RUN apt-get update \
      && rm -rf /var/lib/apt/lists/* 
 
 WORKDIR "/opt"
-ARG BINARY="geth-linux-amd64-1.8.8-2688dab4.tar.gz"
-RUN wget "https://gethstore.blob.core.windows.net/builds/$BINARY"
-RUN tar -xzvf $BINARY --strip 1
-RUN rm $BINARY
+ARG binary
+RUN wget "https://gethstore.blob.core.windows.net/builds/$binary"
+RUN tar -xzvf $binary --strip 1
+RUN rm $binary
 
 ADD ./genesis.json ./genesis.json
 RUN ./geth init genesis.json
