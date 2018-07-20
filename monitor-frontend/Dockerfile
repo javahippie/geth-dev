@@ -8,6 +8,9 @@ RUN apt-get update \
 
 RUN ln -s /usr/bin/nodejs /usr/bin/node
 
+RUN npm install n -g
+RUN n stable
+
 WORKDIR "/opt"
 
 RUN git clone https://github.com/cubedro/eth-netstats.git

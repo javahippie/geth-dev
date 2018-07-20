@@ -7,6 +7,9 @@ RUN apt-get update \
       && rm -rf /var/lib/apt/lists/*
 
 RUN ln -s /usr/bin/nodejs /usr/bin/node
+RUN npm install n -g 
+RUN n stable
+
 
 WORKDIR "/opt"
 
