@@ -1,15 +1,9 @@
-FROM ubuntu:xenial
+FROM alpine:3.8
 
 MAINTAINER Tim Zöller <mail@tim-zoeller.de>
 
-RUN apt-get update \
-      && apt-get install -y wget nodejs npm ntp git\
-      && rm -rf /var/lib/apt/lists/*
-
-RUN ln -s /usr/bin/nodejs /usr/bin/node
-
-RUN npm install n -g
-RUN n stable
+RUN apk update && apk upgrade && \
+    apk add --no-cache git nodejs npm
 
 WORKDIR "/opt"
 
