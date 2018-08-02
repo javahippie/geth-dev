@@ -7,7 +7,7 @@ services:
     build:
       context: ./bootnode
       args:
-        binary: geth-alltools-linux-amd64-1.8.12-37685930.tar.gz
+        binary: geth-alltools-linux-amd64-1.8.13-225171a4.tar.gz
     ports: 
       - 30301:30301/udp
     networks:
@@ -25,7 +25,7 @@ services:
     build: 
       context: ./miner
       args:
-        binary: geth-linux-amd64-1.8.12-37685930.tar.gz
+        binary: geth-linux-amd64-1.8.13-225171a4.tar.gz
         privatekey: df504d175ae63abf209bad9dda965310d99559620550e74521a6798a41215f46 # Please don't do something like this in production, okay?
         password: pass
     container_name: geth-miner-1
@@ -48,7 +48,7 @@ services:
     build: 
       context: ./miner
       args:
-        binary: geth-linux-amd64-1.8.12-37685930.tar.gz
+        binary: geth-linux-amd64-1.8.13-225171a4.tar.gz
         privatekey: bc5b578e0dcb2dbf98dd6e5fe62cb5a28b84a55e15fc112d4ca88e1f62bd7c35
         password: word
     container_name: geth-miner-2
@@ -71,7 +71,7 @@ services:
      build:
        context: ./node
        args:
-         binary: geth-linux-amd64-1.8.12-37685930.tar.gz
+         binary: geth-linux-amd64-1.8.13-225171a4.tar.gz
          privatekey: bc5b578e0dcb2dbf98dd6e5fe62cb5a28b84a55e15fc112d4ca88e1f62bd7c35
          password: word
      container_name: geth-miner-3
