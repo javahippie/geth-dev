@@ -24,7 +24,7 @@ RUN ./geth account import --password ~/.accountpassword  ~/.privatekey
 ENV address=""
 ENV bootnodeId=""
 ENV bootnodeIp=""
-CMD exec ./geth --bootnodes "enode://$bootnodeId@$bootnodeIp:30301" --networkid="500" --verbosity=4 --rpc --rpcaddr "0.0.0.0" --rpccorsdomain "*" --mine --etherbase $address --unlock $address --password ~/.accountpassword
+CMD exec ./geth --bootnodes "enode://$bootnodeId@$bootnodeIp:30301" --networkid="500" --verbosity=4 --rpc --rpcaddr "0.0.0.0" --rpccorsdomain "*" --syncmode=full --mine --etherbase $address --unlock $address --password ~/.accountpassword
 
 EXPOSE 8545
 EXPOSE 30303

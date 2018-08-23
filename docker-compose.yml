@@ -31,6 +31,11 @@ services:
     container_name: geth-miner-1
     ports:
       - 8545:8545
+    healthcheck:
+      test: wget http://localhost:8545
+      interval: 2s
+      timeout: 5s
+      retries: 30
     volumes:
       - eth-data-1:/root/.ethash
     networks:
@@ -40,7 +45,7 @@ services:
   geth-dev-miner-2:
     hostname: geth-dev-miner-2
     depends_on: 
-      - geth-bootnode
+      - geth-dev-miner-1
     environment:
       - address=0x3590aca93338b0721966a8d0c96ebf2c4c87c544 #derived from the private key which is passed in the args
       - bootnodeId=76a8171707eca17647a47ca99ffd348927dfa60102792ea349a25d5192e61855be83b786e376276a306afcceea4ffd1c9c77e4370b417efc39f328a0d068004c #derived from the nodekeyhex of the bootnode
@@ -54,6 +59,11 @@ services:
     container_name: geth-miner-2
     ports:
       - 8546:8545
+    healthcheck:
+      test: wget http://localhost:8545
+      interval: 2s
+      timeout: 5s
+      retries: 30
     volumes:
      - eth-data-2:/root/.ethash
     networks:
@@ -63,7 +73,7 @@ services:
   geth-dev-miner-3:
      hostname: geth-dev-miner-3
      depends_on: 
-       - geth-bootnode
+       - geth-dev-miner-2
      environment:
        - address=0x3590aca93338b0721966a8d0c96ebf2c4c87c544 #derived from the private key which is passed in the args
        - bootnodeId=76a8171707eca17647a47ca99ffd348927dfa60102792ea349a25d5192e61855be83b786e376276a306afcceea4ffd1c9c77e4370b417efc39f328a0d068004c #derived from the nodekeyhex of the bootnode
@@ -77,6 +87,11 @@ services:
      container_name: geth-miner-3
      ports:
        - 8547:8545
+     healthcheck:
+       test: wget http://localhost:8545
+       interval: 2s
+       timeout: 5s
+       retries: 30
      volumes:
       - eth-data-3:/root/.ethash
      networks:
