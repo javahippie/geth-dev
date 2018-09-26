@@ -1,10 +1,8 @@
-FROM ubuntu:xenial
-
-MAINTAINER Tim Zöller <mail@tim-zoeller.de>
+FROM ubuntu
 
 RUN apt-get update \
      && apt-get install -y wget \
-     && rm -rf /var/lib/apt/lists/* 
+     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR "/opt"
 ARG binary
@@ -24,7 +22,7 @@ RUN ./geth account import --password ~/.accountpassword  ~/.privatekey
 ENV address=""
 ENV bootnodeId=""
 ENV bootnodeIp=""
-CMD exec ./geth --bootnodes "enode://$bootnodeId@$bootnodeIp:30301" --networkid="500" --verbosity=4 --rpc --rpcapi "eth,web3,personal,net,miner,admin,debug,db" --rpcaddr "0.0.0.0" --rpccorsdomain "*" --syncmode=full --mine --etherbase $address
+CMD exec ./geth --bootnodes "enode://$bootnodeId@$bootnodeIp:30301" --networkid="500" --verbosity=1 --rpc --rpcapi "eth,web3,personal,net,miner,admin,debug,db" --rpcaddr "0.0.0.0" --rpccorsdomain "*" --syncmode=full --mine --etherbase $address
 
 EXPOSE 8545
 EXPOSE 30303

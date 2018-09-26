@@ -1,18 +1,15 @@
-FROM ubuntu:xenial
-
-MAINTAINER Tim Zöller <mail@tim-zoeller.de>
+FROM ubuntu
 
 RUN apt-get update \
      && apt-get install -y wget software-properties-common \
-     && rm -rf /var/lib/apt/lists/* 
+     && rm -rf /var/lib/apt/lists/*
+
+WORKDIR "/root"
 
 RUN add-apt-repository -y ppa:ethereum/ethereum
 
-RUN apt-get update \ 
-     && apt-get install -y ethereum-swarm=0.3.2+build14973+xenial geth=1.8.14+build14973+xenial
-
-ADD ./genesis.json ./genesis.json
-RUN geth init genesis.json
+RUN apt-get update \
+     && apt-get install -y ethereum-swarm=0.3.4+build15490+bionic  geth=1.8.16+build15490+bionic
 
 ARG password
 ARG privatekey
@@ -21,5 +18,10 @@ RUN echo $privatekey > ~/.privatekey
 RUN geth account import --password ~/.accountpassword  ~/.privatekey
 
 ENV address=""
+ENV bootnodeId=""
+ENV bootnodeIp=""
 
-CMD swarm --bzzaccount $address
+CMD exec swarm --bootnodes "enode://$bootnodeId@$bootnodeIp:30399" --password ~/.accountpassword --bzzaccount $address --datadir .ethereum --keystore .ethereum/keystore --bzzapi "0.0.0.0" -corsdomain "*" -httpaddr "0.0.0.0"
+
+EXPOSE 8500
+EXPOSE 33099

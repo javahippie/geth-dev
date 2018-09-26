@@ -1,7 +1,5 @@
 FROM alpine:3.8
 
-MAINTAINER Tim Zöller <mail@tim-zoeller.de>
-
 RUN apk update && apk upgrade && \
     apk add --no-cache git nodejs npm
 
