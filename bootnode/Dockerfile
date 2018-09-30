@@ -1,10 +1,8 @@
-FROM ubuntu:xenial
-
-MAINTAINER Tim Zöller <mail@tim-zoeller.de>
+FROM ubuntu
 
 RUN apt-get update \
      && apt-get install -y wget \
-     && rm -rf /var/lib/apt/lists/* 
+     && rm -rf /var/lib/apt/lists/*
 
 ARG binary
 WORKDIR "/opt"

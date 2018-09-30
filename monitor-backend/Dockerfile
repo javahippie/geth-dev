@@ -1,13 +1,11 @@
 FROM alpine:3.8
 
-MAINTAINER Tim Zöller <mail@tim-zoeller.de>
-
 RUN apk update && apk upgrade && \
     apk add --no-cache git nodejs npm
 
 WORKDIR "/opt"
 
-RUN git clone https://github.com/cubedro/eth-net-intelligence-api.git
+RUN git clone https://nicovergauwen@bitbucket.org/designisdead/eth-net-intelligence-api.git
 
 WORKDIR "/opt/eth-net-intelligence-api"
 
