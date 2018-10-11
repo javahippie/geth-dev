@@ -98,29 +98,6 @@ services:
        chainnet:
          ipv4_address: 172.25.0.110
 
-  geth-monitor-backend:
-    hostname: geth-monitor-backend
-    depends_on:
-      - geth-dev-miner-1
-    build:
-      context: ./monitor-backend
-    container_name: monitor-backend
-    networks:
-      chainnet:
-
-  geth-monitor-frontend:
-   hostname: geth-monitor-frontend
-   depends_on:
-     - geth-monitor-backend
-   build:
-     context: ./monitor-frontend
-   container_name: monitor-frontend
-   ports:
-    - 3000:3000
-   networks:
-    chainnet:
-      ipv4_address: 172.25.0.103
-
   geth-dev-swarm-1:
      hostname: geth-dev-swarm-1
      depends_on:

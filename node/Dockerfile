@@ -10,7 +10,7 @@ RUN wget "https://gethstore.blob.core.windows.net/builds/$binary"
 RUN tar -xzvf $binary --strip 1
 RUN rm $binary
 
-ADD ./genesis.json ./genesis.json
+ADD ../genesis.json ./genesis.json
 RUN ./geth init genesis.json
 
 ARG password
