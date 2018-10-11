@@ -1,28 +1,29 @@
-FROM ubuntu
+FROM ubuntu:xenial
 
 RUN apt-get update \
-     && apt-get install -y wget \
+     && apt-get install -y wget software-properties-common \
      && rm -rf /var/lib/apt/lists/*
 
-WORKDIR "/opt"
-ARG binary
-RUN wget "https://gethstore.blob.core.windows.net/builds/$binary"
-RUN tar -xzvf $binary --strip 1
-RUN rm $binary
+WORKDIR "/root"
 
-ADD ../genesis.json ./genesis.json
-RUN ./geth init genesis.json
+RUN add-apt-repository -y ppa:ethereum/ethereum
+
+RUN apt-get update \
+     && apt-get install -y ethereum=1.8.17+build15807+xenial
 
 ARG password
 ARG privatekey
 RUN echo $password > ~/.accountpassword
 RUN echo $privatekey > ~/.privatekey
-RUN ./geth account import --password ~/.accountpassword  ~/.privatekey
+ADD ./genesis.json ./genesis.json
+RUN geth init genesis.json
+RUN geth account import --password ~/.accountpassword  ~/.privatekey
 
 ENV address=""
 ENV bootnodeId=""
 ENV bootnodeIp=""
-CMD exec ./geth --bootnodes "enode://$bootnodeId@$bootnodeIp:30301" --networkid="500" --verbosity=4 --rpc --rpcapi "eth,web3,personal,net,miner,admin,debug,db" --rpcaddr "0.0.0.0" --rpccorsdomain "*" --syncmode=full --mine --etherbase $address --unlock $address --password ~/.accountpassword --gasprice "0"
+
+CMD exec geth --bootnodes "enode://$bootnodeId@$bootnodeIp:30301" --networkid="500" --verbosity=4 --rpc --rpcapi "eth,web3,personal,net,miner,admin,debug,db" --rpcaddr "0.0.0.0" --rpccorsdomain "*" --syncmode=full --mine --etherbase $address --unlock $address --password ~/.accountpassword --gasprice "0"
 
 EXPOSE 8545
 EXPOSE 30303
