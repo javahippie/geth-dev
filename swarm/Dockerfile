@@ -20,11 +20,13 @@ ADD ./genesis.json ./genesis.json
 RUN geth init genesis.json
 RUN geth account import --password ~/.accountpassword  ~/.privatekey
 
+RUN apt-get install -y ethereum-swarm=0.3.5+build15807+xenial
+
 ENV address=""
 ENV bootnodeId=""
 ENV bootnodeIp=""
 
-CMD exec geth --bootnodes "enode://$bootnodeId@$bootnodeIp:30301" --networkid="500" --verbosity=4 --rpc --rpcapi "eth,web3,personal,net,miner,admin,debug,db" --rpcaddr "0.0.0.0" --rpccorsdomain "*" --syncmode=full --mine --etherbase $address --unlock $address --password ~/.accountpassword --gasprice "0"
+CMD exec swarm --bootnodes "enode://$bootnodeId@$bootnodeIp:30399" --password ~/.accountpassword --bzzaccount $address --datadir .ethereum --keystore .ethereum/keystore --bzzapi "0.0.0.0" -corsdomain "*" -httpaddr "0.0.0.0"
 
-EXPOSE 8545
-EXPOSE 30303
+EXPOSE 8500
+EXPOSE 33099

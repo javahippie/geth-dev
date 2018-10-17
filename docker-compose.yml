@@ -2,30 +2,30 @@ version: "3"
 services:
   geth-bootnode:
     hostname: geth-bootnode
-    environment: 
+    environment:
       - nodekeyhex=08f0e1dee5c1b4645f3331a566009e41a4514b6cd28656d63d0449ecf812812b #Needs to be fix, so that the miners know the resulting enode id
     build:
       context: ./bootnode
       args:
-        binary: geth-alltools-linux-amd64-1.8.16-477eb093.tar.gz
-    ports: 
+        binary: 1.8.17+build15807+xenial
+    ports:
       - 30301:30301/udp
     networks:
-      chainnet: 
+      chainnet:
         ipv4_address: 172.25.0.101 # The miners need to know the IP address later on
 
   geth-dev-miner-1:
     hostname: geth-dev-miner-1
-    depends_on: 
+    depends_on:
       - geth-bootnode
     environment:
       - address=0x8cc5a1a0802db41db826c2fcb72423744338dcb0 #derived from the private key which is passed in the args
       - bootnodeId=76a8171707eca17647a47ca99ffd348927dfa60102792ea349a25d5192e61855be83b786e376276a306afcceea4ffd1c9c77e4370b417efc39f328a0d068004c #derived from the nodekeyhex of the bootnode
-      - bootnodeIp=172.25.0.101  
-    build: 
+      - bootnodeIp=172.25.0.101
+    build:
       context: ./miner
       args:
-        binary: geth-linux-amd64-1.8.16-477eb093.tar.gz
+        binary: 1.8.17+build15807+xenial
         privatekey: df504d175ae63abf209bad9dda965310d99559620550e74521a6798a41215f46 # Please don't do something like this in production, okay?
         password: pass
     container_name: geth-miner-1
@@ -44,16 +44,16 @@ services:
 
   geth-dev-miner-2:
     hostname: geth-dev-miner-2
-    depends_on: 
+    depends_on:
       - geth-dev-miner-1
     environment:
       - address=0x3590aca93338b0721966a8d0c96ebf2c4c87c544 #derived from the private key which is passed in the args
       - bootnodeId=76a8171707eca17647a47ca99ffd348927dfa60102792ea349a25d5192e61855be83b786e376276a306afcceea4ffd1c9c77e4370b417efc39f328a0d068004c #derived from the nodekeyhex of the bootnode
       - bootnodeIp=172.25.0.101
-    build: 
+    build:
       context: ./miner
       args:
-        binary: geth-linux-amd64-1.8.16-477eb093.tar.gz
+        binary: 1.8.17+build15807+xenial
         privatekey: bc5b578e0dcb2dbf98dd6e5fe62cb5a28b84a55e15fc112d4ca88e1f62bd7c35
         password: word
     container_name: geth-miner-2
@@ -72,7 +72,7 @@ services:
 
   geth-dev-miner-3:
      hostname: geth-dev-miner-3
-     depends_on: 
+     depends_on:
        - geth-dev-miner-2
      environment:
        - address=0x3590aca93338b0721966a8d0c96ebf2c4c87c544 #derived from the private key which is passed in the args
@@ -81,7 +81,7 @@ services:
      build:
        context: ./node
        args:
-         binary: geth-linux-amd64-1.8.16-477eb093.tar.gz
+         binary: 1.8.17+build15807+xenial
          privatekey: bc5b578e0dcb2dbf98dd6e5fe62cb5a28b84a55e15fc112d4ca88e1f62bd7c35
          password: word
      container_name: geth-miner-3
@@ -98,28 +98,90 @@ services:
        chainnet:
          ipv4_address: 172.25.0.110
 
-  geth-monitor-backend:
-    hostname: geth-monitor-backend
-    depends_on: 
+  geth-dev-swarm-1:
+     hostname: geth-dev-swarm-1
+     depends_on:
+       - geth-dev-miner-3
+     environment:
+       - address=8cc5a1a0802db41db826c2fcb72423744338dcb0 #derived from the private key which is passed in the args
+       - bootnodeId=76a8171707eca17647a47ca99ffd348927dfa60102792ea349a25d5192e61855be83b786e376276a306afcceea4ffd1c9c77e4370b417efc39f328a0d068004c #derived from the nodekeyhex of the bootnode
+       - bootnodeIp=172.25.0.101
+     build:
+       context: ./swarm
+       args:
+         binary: 1.8.17+build15807+xenial
+         privatekey: df504d175ae63abf209bad9dda965310d99559620550e74521a6798a41215f46
+         password: pass
+     container_name: geth-swarm-1
+     ports:
+       - 8500:8500
+       - 30399:30399/udp
+     volumes:
+      - eth-data-4:/root/.ethash
+     networks:
+       chainnet:
+         ipv4_address: 172.25.0.111
+
+  geth-dev-swarm-2:
+     hostname: geth-dev-swarm-2
+     depends_on:
+       - geth-dev-swarm-1
+     environment:
+       - address=3590aca93338b0721966a8d0c96ebf2c4c87c544 #derived from the private key which is passed in the args
+       - bootnodeId=76a8171707eca17647a47ca99ffd348927dfa60102792ea349a25d5192e61855be83b786e376276a306afcceea4ffd1c9c77e4370b417efc39f328a0d068004c #derived from the nodekeyhex of the bootnode
+       - bootnodeIp=172.25.0.101
+     build:
+       context: ./swarm
+       args:
+         binary: 1.8.17+build15807+xenial
+         privatekey: bc5b578e0dcb2dbf98dd6e5fe62cb5a28b84a55e15fc112d4ca88e1f62bd7c35
+         password: pass
+     container_name: geth-swarm-2
+     ports:
+       - 8501:8500
+       - 30340:30399/udp
+     volumes:
+      - eth-data-5:/root/.ethash
+     networks:
+       chainnet:
+         ipv4_address: 172.25.0.112
+
+  geth-dev-swarm-3:
+     hostname: geth-dev-swarm-3
+     depends_on:
+       - geth-dev-swarm-2
+     environment:
+       - address=3590aca93338b0721966a8d0c96ebf2c4c87c544 #derived from the private key which is passed in the args
+       - bootnodeId=76a8171707eca17647a47ca99ffd348927dfa60102792ea349a25d5192e61855be83b786e376276a306afcceea4ffd1c9c77e4370b417efc39f328a0d068004c #derived from the nodekeyhex of the bootnode
+       - bootnodeIp=172.25.0.101
+     build:
+       context: ./swarm
+       args:
+         binary: 1.8.17+build15807+xenial
+         privatekey: bc5b578e0dcb2dbf98dd6e5fe62cb5a28b84a55e15fc112d4ca88e1f62bd7c35
+         password: pass
+     container_name: geth-swarm-3
+     ports:
+       - 8502:8500
+       - 30341:30399/udp
+     volumes:
+      - eth-data-6:/root/.ethash
+     networks:
+       chainnet:
+         ipv4_address: 172.25.0.113
+
+  geth-explorer:
+    hostname: geth-explorer
+    depends_on:
       - geth-dev-miner-1
+    ports:
+      - 8080:8080
     build:
-      context: ./monitor-backend
-    container_name: monitor-backend
+      context: ./explorer
+    container_name: geth-explorer
     networks:
       chainnet:
-
-  geth-monitor-frontend:
-   hostname: geth-monitor-frontend
-   depends_on: 
-     - geth-monitor-backend
-   build:
-     context: ./monitor-frontend
-   container_name: monitor-frontend
-   ports:
-    - 3000:3000
-   networks:
-    chainnet:
-      ipv4_address: 172.25.0.103
+        ipv4_address: 172.25.0.125
 
 networks:
   chainnet:
@@ -132,3 +194,6 @@ volumes:
   eth-data-1:
   eth-data-2:
   eth-data-3:
+  eth-data-4:
+  eth-data-5:
+  eth-data-6:
