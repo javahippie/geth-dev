@@ -20,7 +20,7 @@ ADD ./genesis.json ./genesis.json
 RUN geth init genesis.json
 RUN geth account import --password ~/.accountpassword  ~/.privatekey
 
-RUN apt-get install -y ethereum-swarm=0.3.5+build15807+xenial
+RUN apt-get install -y ethereum-swarm=0.3.6+build16294+xenial
 
 ENV address=""
 ENV bootnodeId=""
