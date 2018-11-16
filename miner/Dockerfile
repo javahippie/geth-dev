@@ -10,7 +10,7 @@ RUN add-apt-repository -y ppa:ethereum/ethereum
 
 ARG binary
 RUN apt-get update \
-     && apt-get install -y ethereum=$binary
+     && apt-get install -y ethereum
 
 ARG password
 ARG privatekey
@@ -24,7 +24,4 @@ ENV address=""
 ENV bootnodeId=""
 ENV bootnodeIp=""
 
-CMD exec geth --bootnodes "enode://$bootnodeId@$bootnodeIp:30301" --networkid="500" --verbosity=4 --rpc --rpcapi "eth,web3,personal,net,miner,admin,debug,db" --rpcaddr "0.0.0.0" --rpccorsdomain "*" --syncmode=full --mine --etherbase $address --unlock $address --password ~/.accountpassword --gasprice "0"
-
-EXPOSE 8545
-EXPOSE 30303
+CMD exec geth --bootnodes "enode://$bootnodeId@$bootnodeIp:30301" --networkid "6660001" --verbosity=4  --syncmode=full --mine --gasprice "0" --etherbase $address --unlock $address --password ~/.accountpassword
